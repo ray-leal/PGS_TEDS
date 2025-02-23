@@ -3,7 +3,7 @@ Creating PolyGenic Scores
 
 ```mermaid
 flowchart TD
-    A[1. Start] --> B[2 - Input Processing]
+    A[1 - Start] --> B[2 - Input Processing]
     B --> C[3 - Read Summary Statistics]
     
     C --> D{4 - Quality Control}
