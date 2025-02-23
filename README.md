@@ -36,10 +36,3 @@ flowchart TD
     O1 & O2 --> P[Save Results]
     P --> Q[End]
 
-
-%% Annotations
-    classDef note fill:#f9f,stroke:#333,stroke-width:2px;
-    class A note;
-
-    %% Adding text annotations
-    A:::note -->|Note| A [This is the start point]
