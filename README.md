@@ -1,7 +1,7 @@
 # PGS_TEDS
 Creating PolyGenic Scores
 
-
+```mermaid
 flowchart TD
     A[Start] --> B[Input Processing]
     B --> C[Read Summary Statistics]
