@@ -35,3 +35,15 @@ flowchart TD
     
     O1 & O2 --> P[Save Results]
     P --> Q[End]
+
+
+%% Annotations
+    classDef note fill:#f9f,stroke:#333,stroke-width:2px;
+    class A note;
+    class B note;
+    class C note;
+    class D note;
+    class E note;
+
+    %% Adding text annotations
+    A:::note -->|Note| A_note[This is the start point]
