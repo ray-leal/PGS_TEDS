@@ -42,4 +42,4 @@ flowchart TD
     class A note;
 
     %% Adding text annotations
-    A:::note -->|Note| A[Start] [This is the start point]
+    A:::note -->|Note| A [This is the start point]
