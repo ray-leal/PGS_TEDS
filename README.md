@@ -36,3 +36,91 @@ flowchart TD
     O1 & O2 --> P[17 - Save Results]
     P --> Q[End]
 
+
+Input Processing
+
+Load required libraries
+Parse command-line arguments
+Set up logging
+Define input/output paths
+
+
+Read Summary Statistics
+
+Load GWAS summary statistics
+Check required columns (CHR, BP, A1, A2, BETA, SE)
+Log dimensions and headers
+
+
+Quality Control
+
+Check and filter Minor Allele Frequency (MAF)
+Filter on INFO scores if present
+Convert alleles to uppercase
+Remove duplicate SNPs
+
+
+Calculate Effective Sample Size
+
+For case/control traits: use cases and controls
+For continuous traits: use provided N
+Calculate chi-square statistics
+
+
+Match SNPs to Reference Panel
+
+Read HapMap3+ reference map
+Match SNPs to reference
+Identify flipped and reversed SNPs
+Remove duplicates
+
+
+Standard Deviation Processing
+
+Calculate reference and summary statistics SDs
+Flag bad SNPs based on SD criteria
+If >50% SNPs are bad, impute effective N
+Generate SD plots
+
+
+Process Test Data
+
+Load test genotype data
+Match with variants in test data
+Prepare for matrix multiplication
+
+
+Run LDSC (Linkage Disequilibrium Score Regression)
+
+Calculate heritability estimates
+Process LD scores
+
+
+Create Sparse Matrix
+
+Process chromosomes 1-22
+Create correlation matrices
+Save as sparse format
+
+
+LDpred2 Analysis
+a. LDpred2-inf:
+
+Compute infinitesimal model
+Generate weights
+Calculate scores
+
+b. LDpred2-auto:
+
+Run auto model with multiple chains
+Check convergence
+Filter outlier betas
+Calculate final scores
+
+
+Results Processing
+
+Save weights and scores
+Generate plots
+Clean up temporary files
+Complete logging
