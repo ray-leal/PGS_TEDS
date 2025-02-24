@@ -26,13 +26,13 @@ flowchart TD
 
   H1 --> |"-Calculate SD using UKBB<br>-Check for Over/Under SD<br>-Flag Bad SNPs"| H2[Filter Bad SNPs]
   
-  H2 --> |"-Remove SNPs with Unreliable SD"| I[Prepare Data for PRS]
+  H2 --> |"-Remove SNPs with Unreliable SD"| I[Prepare Data for PGS]
   H2 -->|"If >50% fail QC:<br>Generate SD Plot (sd.medianN.png)"| V2[Save Updated SD Plot]
 
   %% Connect Test Data to Matching Step
   I -->|"Match GWAS SNPs with Test Data"| T4[Match SNPs in Test Data]
   T3 --> T4
-  T4 -->|"Align Test SNPs with GWAS Data<br>(Track Flipped/Reversed SNPs)"| T5[Matched SNPs Ready for PRS]
+  T4 -->|"Align Test SNPs with GWAS Data<br>(Track Flipped/Reversed SNPs)"| T5[Matched SNPs Ready for PGS]
 
   T5 -->|"Estimate Heritability (LDSC)"| K[Estimate Heritability LDSC]
   G --> K
@@ -42,8 +42,8 @@ flowchart TD
   L -->|Run Model| M[LDpred2-inf]
   L -->|Run Model| N[LDpred2-auto]
 
-  M -->|"Compute PRS (LDpred2-inf)"| O[Compute PGS LDpred2-inf]
-  N -->|"Compute PRS (LDpred2-auto)"| P[Compute PGS LDpred2-auto]
+  M -->|"Compute PGS (LDpred2-inf)"| O[Compute PGS LDpred2-inf]
+  N -->|"Compute PGS (LDpred2-auto)"| P[Compute PGS LDpred2-auto]
 
   O -->|"PGS Computed Using Genotypes + Effect Sizes (big_prodVec)"| T6[Final PGS for Test Data]
   P --> T6
