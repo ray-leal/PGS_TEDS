@@ -1,3 +1,6 @@
+# ldpred2_auto_inf_qc_RL.R
+# =========================================================================================
+
 #! /usr/bin/env Rscript
 .libPaths()
 library(optparse) 	# handles command-line arguments; getopt must be installed!
