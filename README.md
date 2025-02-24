@@ -1,30 +1,6 @@
 # PGS_TEDS
-Creating PolyGenic Scores
-
-Input Processing
-
-Load required libraries
-Parse command-line arguments
-Set up logging
-Define input/output paths
 
 
-Read Summary Statistics
-
-Load GWAS summary statistics
-Check required columns (CHR, BP, A1, A2, BETA, SE)
-Log dimensions and headers
-
-
-Quality Control
-
-Check and filter Minor Allele Frequency (MAF)
-Filter on INFO scores if present
-Convert alleles to uppercase
-Remove duplicate SNPs
-
-
-Calculate Effective Sample Size
 
 For case/control traits: use cases and controls
 For continuous traits: use provided N
@@ -91,36 +67,37 @@ Complete logging
 
 ```mermaid
 flowchart TD
-    A[1 - Start and Setup] --> B[2 - Input Processing]
-    B --> C[3 - Read Summary Statistics]
-    
-    C --> D{4 - Quality Control}
-    D --> D1[Check MAF]
-    D --> D2[Check INFO scores]
-    D --> D3[Convert alleles to uppercase]
-    
-    D1 & D2 & D3 --> E[5 - Calculate Effective Sample Size]
-    
-    E --> F[6 - Match SNPs to Reference Panel]
-    F --> G[7 - Calculate Standard Deviations]
-    
-    G --> H{8 - SD Check}
-    H -->|Good| I[9 - Process Test Data]
-    H -->|Bad > 50%| J[10 - Impute Effective N]
-    J --> I
-    
-    I --> K[11 - Run LDSC]
-    K --> L[12 - Create Sparse Matrix]
-    
-    L --> M1[13 - Run LDpred2-inf]
-    L --> M2[14 - Run LDpred2-auto]
-    
-    M1 --> N1[15 - Generate infinitesimal weights]
-    M2 --> N2[15 - Generate auto weights]
-    
-    N1 --> O1[16 - Calculate infinitesimal scores]
-    N2 --> O2[16 - Calculate auto scores]
-    
-    O1 & O2 --> P[17 - Save Results]
-    P --> Q[End]
+  A[Prepare Environment] -->|"Open Interactive Session<br> Add R Module<br> Install R Packages<br> Install R Packages<br> Set up logging file<br> Define input/output paths<br>"| B[Start Script]
 
+  B -->|"Check SumStats format<br> Rename SumStats file <br> Load SumStats"| C[GWAS Summary Statistics]
+  C -->|Save/Replace/Update| C2[scores_to_create.csv]
+
+  B -->|Load| D[Genetic Data in RDS Format]
+  B -->|Load| E[LD Reference Data]
+  
+  C --> |"Read Summary Statistics"| F[QC on GWAS Data]
+  F -->|"Check Column names <br> Uppercase alleles <br> Effective Sample Size<br> check/remove MAFs<br> SNPs with INFO <0.6 <br> Remove duplicate SNPs <br>"| G[Match SNPs with LD Reference]
+  E --> G
+
+  G --> H[Compute GWAS Statistics]
+  H --> I[Match SNPs with Test Data]
+  D --> I
+
+  I -->|Check & Remove Duplicates| J[Prepare Data for Analysis]
+  J --> K[Estimate Heritability LDSC]
+  G --> K
+
+  K -->|Convert LD Matrix| L[Sparse Matrix Format]
+  E --> L
+  L -->|Run Model| M[LDpred2-inf]
+  L -->|Run Model| N[LDpred2-auto]
+  
+  M --> O[Compute PRS LDpred2-inf]
+  N --> P[Compute PRS LDpred2-auto]
+  D --> O
+  D --> P
+  
+  O --> Q[Save PRS Results]
+  P --> Q
+
+  Q --> R[End Script]
