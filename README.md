@@ -6,7 +6,7 @@ flowchart TD
   A[Prepare Environment] -->|"Open Interactive Session<br> Add R Module<br> Install R Packages<br> Set up logging file<br> Define input/output paths"| B[Start Script]
 
   %% Move "Load Test Genotype Data" to the Far Left
-  TL1["📂 Load Test Genotype Data"]:::highlight
+  TL1["Load Test Genotype Data"]
   B -->|"Load Test Data (Genotypes + Metadata)"| TL1
   TL1 -->|"Extract SNP Metadata<br>(Chromosome, Position, Alleles)"| T2[Extract Test SNP Map]
   T2 -->|"Check + Remove Duplicates"| T3[Prepare Test Data for Analysis]
@@ -42,17 +42,17 @@ flowchart TD
   L -->|Run Model| M[LDpred2-inf]
   L -->|Run Model| N[LDpred2-auto]
 
-  M -->|"Compute PRS (LDpred2-inf)"| O[Compute PRS LDpred2-inf]
-  N -->|"Compute PRS (LDpred2-auto)"| P[Compute PRS LDpred2-auto]
+  M -->|"Compute PRS (LDpred2-inf)"| O[Compute PGS LDpred2-inf]
+  N -->|"Compute PRS (LDpred2-auto)"| P[Compute PGS LDpred2-auto]
 
-  O -->|"PRS Computed Using Genotypes + Effect Sizes (big_prodVec)"| T6[Final PRS for Test Data]
+  O -->|"PGS Computed Using Genotypes + Effect Sizes (big_prodVec)"| T6[Final PGS for Test Data]
   P --> T6
-  T6 --> Q[Save PRS Results]
+  T6 --> Q[Save PGS Results in log]:::highlight
 
   Q --> R[End Script]
 
   %% Separate Highlighted Boxes for Outputs
-  V1(["🚀 Save SD Comparison Plot (sd.png)"]):::highlight
+  V1(["📈 Save SD Comparison Plot (sd.png)"]):::highlight
   V3(["📈 Save LDpred2-auto Plot (auto_chains.png)"]):::highlight
 
   H1 -->|Generates| V1
