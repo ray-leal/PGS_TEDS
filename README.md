@@ -1,126 +1,62 @@
 # PGS_TEDS
-Creating PolyGenic Scores
-
-Input Processing
-
-Load required libraries
-Parse command-line arguments
-Set up logging
-Define input/output paths
-
-
-Read Summary Statistics
-
-Load GWAS summary statistics
-Check required columns (CHR, BP, A1, A2, BETA, SE)
-Log dimensions and headers
-
-
-Quality Control
-
-Check and filter Minor Allele Frequency (MAF)
-Filter on INFO scores if present
-Convert alleles to uppercase
-Remove duplicate SNPs
-
-
-Calculate Effective Sample Size
-
-For case/control traits: use cases and controls
-For continuous traits: use provided N
-Calculate chi-square statistics
-
-
-Match SNPs to Reference Panel
-
-Read HapMap3+ reference map
-Match SNPs to reference
-Identify flipped and reversed SNPs
-Remove duplicates
-
-
-Standard Deviation Processing
-
-Calculate reference and summary statistics SDs
-Flag bad SNPs based on SD criteria
-If >50% SNPs are bad, impute effective N
-Generate SD plots
-
-
-Process Test Data
-
-Load test genotype data
-Match with variants in test data
-Prepare for matrix multiplication
-
-
-Run LDSC (Linkage Disequilibrium Score Regression)
-
-Calculate heritability estimates
-Process LD scores
-
-
-Create Sparse Matrix
-
-Process chromosomes 1-22
-Create correlation matrices
-Save as sparse format
-
-
-LDpred2 Analysis
-a. LDpred2-inf:
-
-Compute infinitesimal model
-Generate weights
-Calculate scores
-
-b. LDpred2-auto:
-
-Run auto model with multiple chains
-Check convergence
-Filter outlier betas
-Calculate final scores
-
-
-Results Processing
-
-Save weights and scores
-Generate plots
-Clean up temporary files
-Complete logging
 
 ```mermaid
 flowchart TD
-    A[1 - Start and Setup] --> B[2 - Input Processing]
-    B --> C[3 - Read Summary Statistics]
-    
-    C --> D{4 - Quality Control}
-    D --> D1[Check MAF]
-    D --> D2[Check INFO scores]
-    D --> D3[Convert alleles to uppercase]
-    
-    D1 & D2 & D3 --> E[5 - Calculate Effective Sample Size]
-    
-    E --> F[6 - Match SNPs to Reference Panel]
-    F --> G[7 - Calculate Standard Deviations]
-    
-    G --> H{8 - SD Check}
-    H -->|Good| I[9 - Process Test Data]
-    H -->|Bad > 50%| J[10 - Impute Effective N]
-    J --> I
-    
-    I --> K[11 - Run LDSC]
-    K --> L[12 - Create Sparse Matrix]
-    
-    L --> M1[13 - Run LDpred2-inf]
-    L --> M2[14 - Run LDpred2-auto]
-    
-    M1 --> N1[15 - Generate infinitesimal weights]
-    M2 --> N2[15 - Generate auto weights]
-    
-    N1 --> O1[16 - Calculate infinitesimal scores]
-    N2 --> O2[16 - Calculate auto scores]
-    
-    O1 & O2 --> P[17 - Save Results]
-    P --> Q[End]
+  %% Prepare Environment
+  A[Prepare Environment] -->|"Open Interactive Session<br> Add R Module<br> Install R Packages<br> Set up logging file<br> Define input/output paths"| B[Start Script]
 
+  %% Move "Load Test Genotype Data" to the Far Left
+  TL1["📂 Load Test Genotype Data"]:::highlight
+  B -->|"Load Test Data (Genotypes + Metadata)"| TL1
+  TL1 -->|"Extract SNP Metadata<br>(Chromosome, Position, Alleles)"| T2[Extract Test SNP Map]
+  T2 -->|"Check + Remove Duplicates"| T3[Prepare Test Data for Analysis]
+
+  %% GWAS Data Processing
+  B -->|"Check SumStats format<br> Rename SumStats file <br> Load SumStats"| C[GWAS Summary Statistics]
+  C -->|Save/Replace/Update| C2[scores_to_create.csv]
+
+  B -->|"HapMap3+ reference map"| E[LDpred2 Reference Data]
+
+  C -->|"Read Summary Statistics"| F[QC on GWAS Data]
+  F -->|"-Check Column names <br> -Uppercase alleles <br> -Effective Sample Size<br> -Check/remove MAFs<br> -SNPs with INFO <0.6 <br> -Remove duplicate SNPs"| G[Match SNPs with LD Reference]
+  E --> G
+
+  G --> |"-Track flipped SNPs<br> -Track reversed SNPs<br> -Remove duplicates"| H[Compute GWAS Statistics]
+  H --> |"-Calculate Chi-square<br> -Calculate SD"| H1[Compute SNP Standard Deviation]
+
+  H1 --> |"-Calculate SD using UKBB<br>-Check for Over/Under SD<br>-Flag Bad SNPs"| H2[Filter Bad SNPs]
+  
+  H2 --> |"-Remove SNPs with Unreliable SD"| I[Prepare Data for PRS]
+  H2 -->|"If >50% fail QC:<br>Generate SD Plot (sd.medianN.png)"| V2[Save Updated SD Plot]
+
+  %% Connect Test Data to Matching Step
+  I -->|"Match GWAS SNPs with Test Data"| T4[Match SNPs in Test Data]
+  T3 --> T4
+  T4 -->|"Align Test SNPs with GWAS Data<br>(Track Flipped/Reversed SNPs)"| T5[Matched SNPs Ready for PRS]
+
+  T5 -->|"Estimate Heritability (LDSC)"| K[Estimate Heritability LDSC]
+  G --> K
+
+  K -->|Convert LD Matrix| L[Sparse Matrix Format]
+  E --> L
+  L -->|Run Model| M[LDpred2-inf]
+  L -->|Run Model| N[LDpred2-auto]
+
+  M -->|"Compute PRS (LDpred2-inf)"| O[Compute PRS LDpred2-inf]
+  N -->|"Compute PRS (LDpred2-auto)"| P[Compute PRS LDpred2-auto]
+
+  O -->|"PRS Computed Using Genotypes + Effect Sizes (big_prodVec)"| T6[Final PRS for Test Data]
+  P --> T6
+  T6 --> Q[Save PRS Results]
+
+  Q --> R[End Script]
+
+  %% Separate Highlighted Boxes for Outputs
+  V1(["🚀 Save SD Comparison Plot (sd.png)"]):::highlight
+  V3(["📈 Save LDpred2-auto Plot (auto_chains.png)"]):::highlight
+
+  H1 -->|Generates| V1
+  N -->|Generates| V3
+
+  %% Styling for Highlighted Boxes
+  classDef highlight fill:#FFD700,stroke:#000,stroke-width:2px;
