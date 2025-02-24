@@ -5,21 +5,12 @@ For continuous traits: use provided N
 Calculate chi-square statistics
 
 
-Match SNPs to Reference Panel
-
-Read HapMap3+ reference map
-Match SNPs to reference
-Identify flipped and reversed SNPs
-Remove duplicates
-
-
 Standard Deviation Processing
 
 Calculate reference and summary statistics SDs
 Flag bad SNPs based on SD criteria
 If >50% SNPs are bad, impute effective N
 Generate SD plots
-
 
 Process Test Data
 
@@ -70,14 +61,14 @@ flowchart TD
   B -->|"Check SumStats format<br> Rename SumStats file <br> Load SumStats"| C[GWAS Summary Statistics]
   C -->|Save/Replace/Update| C2[scores_to_create.csv]
 
-  B -->|Load HapMap3+ .rds file| E[ldpred2 Reference Data]
+  B -->|HapMap3+ reference map| E[ldpred2 Reference Data]
   
   C --> |"Read Summary Statistics"| F[QC on GWAS Data]
-  F -->|"Check Column names <br> Uppercase alleles <br> Effective Sample Size<br> check/remove MAFs<br> SNPs with INFO <0.6 <br> Remove duplicate SNPs <br>"| G[Match SNPs with LD Reference]
-  E --> G
+  F -->|"-Check Column names <br> -Uppercase alleles <br> -Effective Sample Size<br> -check/remove MAFs<br> -SNPs with INFO <0.6 <br> -Remove duplicate SNPs <br>"| G[Match SNPs with LD Reference]
+  E --> G 
 
-  G --> H[Compute GWAS Statistics]
-  H --> I[Match SNPs with Test Data]
+  G --> |"-Track flipped SNPs<br> -Track reversed SNPs<br> -Remove duplicates<br>"| H[Compute GWAS Statistics]
+  H --> |"-Calculate Chi-square<br> -Calculate SD<br>"| I[Match SNPs with Test Data]
 
   I -->|Check & Remove Duplicates| J[Prepare Data for Analysis]
   J --> K[Estimate Heritability LDSC]
