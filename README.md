@@ -1,7 +1,5 @@
 # PGS_TEDS
 
-
-
 For case/control traits: use cases and controls
 For continuous traits: use provided N
 Calculate chi-square statistics
@@ -72,8 +70,7 @@ flowchart TD
   B -->|"Check SumStats format<br> Rename SumStats file <br> Load SumStats"| C[GWAS Summary Statistics]
   C -->|Save/Replace/Update| C2[scores_to_create.csv]
 
-  B -->|Load| D[Genetic Data in RDS Format]
-  B -->|Load| E[LD Reference Data]
+  B -->|Load HapMap3+ .rds file| E[ldpred2 Reference Data]
   
   C --> |"Read Summary Statistics"| F[QC on GWAS Data]
   F -->|"Check Column names <br> Uppercase alleles <br> Effective Sample Size<br> check/remove MAFs<br> SNPs with INFO <0.6 <br> Remove duplicate SNPs <br>"| G[Match SNPs with LD Reference]
@@ -81,7 +78,6 @@ flowchart TD
 
   G --> H[Compute GWAS Statistics]
   H --> I[Match SNPs with Test Data]
-  D --> I
 
   I -->|Check & Remove Duplicates| J[Prepare Data for Analysis]
   J --> K[Estimate Heritability LDSC]
@@ -94,9 +90,7 @@ flowchart TD
   
   M --> O[Compute PRS LDpred2-inf]
   N --> P[Compute PRS LDpred2-auto]
-  D --> O
-  D --> P
-  
+   
   O --> Q[Save PRS Results]
   P --> Q
 
