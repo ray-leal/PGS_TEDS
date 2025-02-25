@@ -32,9 +32,9 @@ flowchart TD
   %% Connect Test Data to Matching Step
   I -->|"Match GWAS SNPs with Test Data"| T4[Match SNPs in Test Data]
   T3 --> T4
-  T4 -->|"Align Test SNPs with GWAS Data<br>(Track Flipped/Reversed SNPs)"| T5[Matched SNPs Ready for PGS]
+  T4 -->|"-Align Test SNPs with GWAS<br>-Track Flipped SNPs<br>-Track Reversed SNPs<br>"| T5[Matched SNPs Ready for PGS]
 
-  T5 -->|"Estimate Heritability (LDSC)"| K[Estimate Heritability LDSC]
+  T5 --> K[Estimate Heritability LDSC]
   G --> K
 
   K -->|Convert LD Matrix| L[Sparse Matrix Format]
