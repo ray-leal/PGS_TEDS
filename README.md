@@ -39,11 +39,11 @@ flowchart TD
 
   K -->|Convert LD Matrix| L[Sparse Matrix Format]
   E --> L
-  L -->|Run Model| M[LDpred2-inf]
-  L -->|Run Model| N[LDpred2-auto]
+  L -->|Run Model| M[using LDpred2-inf]
+  L -->|Run Model| N[using LDpred2-auto]
 
-  M -->|"Compute PGS (LDpred2-inf)"| O[Compute PGS LDpred2-inf]
-  N -->|"Compute PGS (LDpred2-auto)"| P[Compute PGS LDpred2-auto]
+  M -->|"Compute"| O[Compute PGS<br> LDpred2-inf]
+  N -->|"Compute"| P[Compute PGS<br> LDpred2-auto]
 
   O -->|"PGS Computed Using Genotypes + Effect Sizes (big_prodVec)"| T6[Final PGS for Test Data]
   P --> T6
@@ -54,6 +54,7 @@ flowchart TD
   %% Separate Highlighted Boxes for Outputs
   V1(["🚀 Save SD Comparison Plot (sd.png)"]):::highlight
   V3(["📈 Save LDpred2-auto Plot (auto_chains.png)"]):::highlight
+
 
   H1 -->|Generate| V1
   N -->|Generate| V3
