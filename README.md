@@ -5,6 +5,9 @@ flowchart TD
   %% Prepare Environment
   A[Prepare Environment] -->|"Open Interactive Session<br> Add R Module<br> Install R Packages<br> Set up logging file<br> Define input/output paths"| B[Start Script]
 
+  %% Check SumStats README 
+  A1[Check SumStats README] -->|"-Genomic Build <br>-A1/A2 allele<br>-Check columns:<br>-INFO and Frequency<br>-BETA, SE, Z score, BD+chr, rsid etc."| B[Start Script]
+
   %% Move "Load Test Genotype Data" to the Far Left
   TL1["📂 Load Test Genotype + Metadata"]:::highlight
   B --> TL1
