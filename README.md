@@ -5,13 +5,7 @@ flowchart TD
   %% Prepare Environment
   A[Prepare Environment] -->|"Open Interactive Session<br> Add R Module<br> Install R Packages<br> Set up logging file<br> Define input/output paths"| B[Start Script]
 
-  %% Add SumStats 
-  A0[⬇️ Source and <br> download GWAS SumStats] -->|"-PGC<br>-GWAS Catalog"| A1[SumStats Selection]
-  A1[TEDS SumStats Selection] -->|"-without 23andMe<br>-European sample<br>-with BioBank data"| A2[Check SumStats README]
-  A2[Check SumStats README] -->|"-Genomic Build <br>-A1/A2 allele<br>-Check columns:<br>-INFO and Frequency<br>-BETA, SE, Z score,<br> BD+chr, rsid etc."|A3[📂Upload to<br>raw_sumstate folder]:::highlight
-  A3[📂Upload to<br>raw_sumstate folder] --> |"-make read-only<br>-enter interactive mode<br>-change any col names"|A4[Run cleaning script]
-  A4[Run cleaning script] --> |"-Check log file<br>-check output file<br>-test LDPred2<br>-check correlation inf/auto<br>"| B[Start Script]:::highlight
-  
+
 
   %% Move "Load Test Genotype Data" to the Far Left
   TL1["Load Test Genotype + Metadata"]
