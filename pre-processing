@@ -1,7 +1,4 @@
-# PGS_TEDS
-
 ```mermaid
-flowchart TD
 flowchart TD
 A[Start] --> B(Load Libraries and Arguments);
 B --> C{Check for CHR, ORIGBP or RSID};
