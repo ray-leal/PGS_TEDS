@@ -1,5 +1,6 @@
 ```mermaid
 flowchart TD
+
 A[Start] --> B(Load Libraries and Arguments);
 B --> C{Check for CHR, ORIGBP or RSID};
 C -- CHR & ORIGBP --> D[Determine Genome Build];
