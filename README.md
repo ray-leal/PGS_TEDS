@@ -8,14 +8,48 @@ https://www.teds.ac.uk/datadictionary/studies/measures/polygenic_scores.htm
 Every new score will immediately be made available within the TEDS team for analysis. Polygenic scores are included in shared TEDS datasets following our usual data request procedure (see http://www.teds.ac.uk/researchers/teds-data-access-policy).
 
 ## Steps
-#[1] Basic information
+# Basic information
 - Published paper details 
 - Readme file
 - GWAS data
 
-#[2] Data check 
+# [0] Running files
+- CREATE environment setup 
+- Running sessions
+- Batch generation
+
+[Qualtrics form]
+
+# [1] Data checker
 - Var name checker/rename
 - Check columns vs required
 - Create file for MetaData
 
-#[3] Pre-clean (SumState cleaner)
+[Create R file]
+
+# [2] SumState cleaner
+- Check: CHR, ORIGBP/RSID, INFO, 
+- Harmonise: genomic build, reference data
+- Filter: FREQ/MAF, P-value, Duplicates
+- Recalculate: P, SE
+- Uppercase/Lowercase
+https://github.com/ray-leal/PGS_TEDS/tree/sumstate-cleaner
+
+# [3] Create PGS
+- Pre-checks 
+- Log: flipped SNPS, reversed SNPs
+- Calculate: Chi-square, SD
+- Prepare: test SNP map 
+- Match: GWAS SNPs with test SNP
+- LDSC: Estimate heritability
+- Models: inf vs auto
+- Final: PGS created
+https://github.com/ray-leal/PGS_TEDS/tree/script
+
+# [4] Checks
+- Admin checks: metadata form complete?
+- Data checks: vs previous, vs similar PGS etc.
+- Final checks: before sharing on TEDS website
+
+https://github.com/ray-leal/PGS_TEDS/tree/sumstate-cleaner 
+
